@@ -21,5 +21,5 @@ class Bird(Obstacle):
     def fly(self):
         self.image = BIRD[0] if self.step_index < 5 else BIRD[1]
         self.rect = self.image.get_rect
-        self.rect = self.X_POS_BIRD
+        self.rect.x = self.X_POS_BIRD
         self.step_index += 1
