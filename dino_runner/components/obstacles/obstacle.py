@@ -13,7 +13,6 @@ class Obstacle:
             if not player.shield:
                 pygame.time.delay(600) 
                 player.dino_dead = True
-                player.dead()
-                
+                player.dead()        
     def draw(self, screen):
         screen.blit(self.image, self.rect)
