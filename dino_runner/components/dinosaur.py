@@ -102,6 +102,7 @@ class Dinosaur:
     def reset(self):
         self.type = DEFAULT_TYPE
         self.shield = False
+        self.hammer = False
 
     def dead(self):
         self.image = DEAD

@@ -4,8 +4,9 @@ from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, T
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacule_manager import ObstacleManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
-
+from dino_runner.components import text_utils
 class Game:
+
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(TITLE)
@@ -26,6 +27,46 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
         self.points = 0
+        self.runnig = True
+        self.death_count = 0
+
+    def execute(self):
+        while self.runnig:
+            if not self.playing:
+                self.show_menu()
+
+
+    def show_menu(self):
+        self.runnig = True
+        while_color = (255, 255, 255)
+        self.screen.fill(while_color)
+        self.print_menu_elemt()
+
+        pygame.display.update()
+
+        self.handle_key_events_on_menu()
+
+    def handle_key_events_on_menu(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.runnig = False
+                self.player = False
+                pygame.display.quit()
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                self.run()
+
+    def print_menu_elemt(self):
+        if self.death_count == 0:
+            text, text_rect = text_utils.get_center_message(
+                'press any Key to Start')
+            self.screen.blit(text, text_rect)
+        if self.death_count > 0:
+            pygame.time.delay(1000)
+            text, text_rect = text_utils.get_center_message(
+                'press any Key to Restart')
+            self.screen.blit(text, text_rect)
 
     def run(self):
         # Game loop: events - update - draw
@@ -49,10 +90,12 @@ class Game:
         self.power_up_manager.update(self.game_speed, self.points, self.player)
         if self.player.dino_dead:
             self.playing = False
+            self.death_count += 1
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
+        self.score()
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
@@ -82,4 +125,13 @@ class Game:
             self.screen.blit(CLOUD_2, (image_width + self.x_pos_cloud_2, self.y_pos_cloud_2))
             self.x_pos_cloud_2 = image_width
         self.x_pos_cloud_2 -= self.cloud_2_speed
+
+    def score(self):
+        self.points += 1
+        if self.points % 100 == 0:
+            # increse game_speed
+            self.game_speed +=1
+
+        text, text_rect = text_utils.get_score_element(self.points)
+        self.screen.blit(text, text_rect)
 
