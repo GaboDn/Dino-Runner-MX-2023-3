@@ -1,6 +1,8 @@
 import random
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
+from dino_runner.components.obstacles.heart_false import HeartFalse
+from dino_runner.components.obstacles.potion import FakePotion
 
 class ObstacleManager:
     def __init__(self):
@@ -8,9 +10,13 @@ class ObstacleManager:
 
     def update(self,game_speed,player):
         if len(self.obstacles) == 0:
-            choice = random.choice([0,1])
+            choice = random.choice([0,1,2,3])
             if choice == 0:
                 self.obstacles.append(Cactus())
+            elif choice == 1:
+                self.obstacles.append(HeartFalse())
+            elif choice == 2:
+                self.obstacles.append(FakePotion())
             else:
                 self.obstacles.append(Bird())
         for obstacle in self.obstacles:
@@ -21,3 +27,6 @@ class ObstacleManager:
     def draw(self,screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+
+    def reset_obstacles(self):
+        self.obstacles = []

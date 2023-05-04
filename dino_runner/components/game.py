@@ -5,6 +5,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacule_manager import ObstacleManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 from dino_runner.components import text_utils
+
 class Game:
 
     def __init__(self):
@@ -35,12 +36,12 @@ class Game:
             if not self.playing:
                 self.show_menu()
 
-
     def show_menu(self):
         self.runnig = True
         while_color = (255, 255, 255)
         self.screen.fill(while_color)
-        self.print_menu_elemt()
+
+        self.print_menu_elements()
 
         pygame.display.update()
 
@@ -57,25 +58,37 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 self.run()
 
-    def print_menu_elemt(self):
+    def print_menu_elements(self):
         if self.death_count == 0:
             text, text_rect = text_utils.get_center_message(
-                'press any Key to Start')
+                'Press any Key to Start')
             self.screen.blit(text, text_rect)
         if self.death_count > 0:
             pygame.time.delay(1000)
             text, text_rect = text_utils.get_center_message(
-                'press any Key to Restart')
+                'Press any Key to Restart')
             self.screen.blit(text, text_rect)
+
+    def reset(self):
+        self.player = False
+        self.game_speed = 20
+        self.points = 0
+        self.runnig = True
+        self.death_count = 0
+        self.player = Dinosaur()
+        self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_Power()
+
 
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
+        self.reset()
         while self.playing:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+        # pygame.quit()
 
     def events(self):
         for event in pygame.event.get():
@@ -83,10 +96,10 @@ class Game:
                 self.playing = False
 
     def update(self):
-        self.points += 1
+        #self.points += 1
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        self.obstacle_manager.update(self.game_speed,self.player)
+        self.obstacle_manager.update(self.game_speed, self.player)
         self.power_up_manager.update(self.game_speed, self.points, self.player)
         if self.player.dino_dead:
             self.playing = False
@@ -129,8 +142,7 @@ class Game:
     def score(self):
         self.points += 1
         if self.points % 100 == 0:
-            # increse game_speed
-            self.game_speed +=1
+            self.game_speed += 1
 
         text, text_rect = text_utils.get_score_element(self.points)
         self.screen.blit(text, text_rect)

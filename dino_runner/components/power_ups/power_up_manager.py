@@ -13,7 +13,7 @@ class PowerUpManager:
             choice = random.choice([0,1])
             if choice == 0:
                 self.power_ups.append(Shield())
-            else:
+            elif choice == 1:
                 self.power_ups.append(Hammer())
         for power_up in self.power_ups:
             if power_up.used or power_up.rect.x < -power_up.rect.width:
@@ -25,3 +25,6 @@ class PowerUpManager:
     def draw(self, screen):
         for power_up in self.power_ups:
             power_up.draw(screen)
+            
+    def reset_Power(self):
+        self.power_ups = []

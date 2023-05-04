@@ -25,6 +25,7 @@ class Dinosaur:
         self.dino_dead = False
         self.shield = False
         self.hammer = False
+        self.pildoras = False
         self.time_up_power_up = 0
     
     def update(self, user_input):
@@ -57,6 +58,11 @@ class Dinosaur:
                 self.reset()
 
         if self.hammer:
+            time_to_show = round((self.time_up_power_up - pygame.time.get_ticks()) / 1000, 2)
+            if time_to_show < 0:
+                self.reset()
+
+        if self.pildoras:
             time_to_show = round((self.time_up_power_up - pygame.time.get_ticks()) / 1000, 2)
             if time_to_show < 0:
                 self.reset()
@@ -103,6 +109,7 @@ class Dinosaur:
         self.type = DEFAULT_TYPE
         self.shield = False
         self.hammer = False
+        self.pildoras = False
 
     def dead(self):
         self.image = DEAD
