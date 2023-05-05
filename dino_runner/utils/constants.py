@@ -78,6 +78,8 @@ HEART_FALSE = pygame.image.load(os.path.join(IMG_DIR, 'Other/corazon falso 2.png
 
 FAKE_POTION = pygame.image.load(os.path.join(IMG_DIR, 'Other/pocion.png'))
 
+ROCK = pygame.image.load(os.path.join(IMG_DIR, 'Other/rocas.png'))
+
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
 HAMMER_TYPE = 'hammer'

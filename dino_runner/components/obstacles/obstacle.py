@@ -6,6 +6,7 @@ class Obstacle:
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_WIDTH
+        self.hammered = False 
 
     def update(self, game_speed, player,):
         self.rect.x -= game_speed
@@ -13,6 +14,8 @@ class Obstacle:
             if not player.shield and not player.hammer:
                 pygame.time.delay(600) 
                 player.dino_dead = True
-                player.dead()        
+                player.dead()
+            elif player.hammer:
+                self.hammered = True     
     def draw(self, screen):
         screen.blit(self.image, self.rect)
