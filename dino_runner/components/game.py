@@ -63,8 +63,9 @@ class Game:
             text, text_rect = text_utils.get_center_message(
                 'Press any Key to Start')
             self.screen.blit(text, text_rect)
-        if self.death_count > 0:
-            pygame.time.delay(1000)
+        else: 
+            #self.death_count > 0
+            #pygame.time.delay(1000)
             text, text_rect = text_utils.get_center_message(
                 'Press any Key to Restart')
             self.screen.blit(text, text_rect)
